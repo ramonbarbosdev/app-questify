@@ -45,7 +45,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
         style={styles.input}
         value={value}
         onChangeText={onChangeText}
-        placeholder="Your answer"
+        placeholder="Sua resposta"
         placeholderTextColor={Colors.tertiary}
         keyboardType="default"
         autoCorrect={false}
@@ -64,7 +64,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
             (!value.trim() || disabled) && styles.buttonDisabled,
           ]}
         >
-          <Text style={styles.buttonText}>Check</Text>
+          <Text style={styles.buttonText}>Verificar</Text>
         </Pressable>
       </Animated.View>
     </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.surfaceLight,
   },
   button: {
-    backgroundColor: Colors.accent,
+    backgroundColor: Colors.button,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',

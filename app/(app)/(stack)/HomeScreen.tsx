@@ -62,9 +62,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onFinish }) => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Daily Challenge</Text>
+          <Text style={styles.title}>Desafio Diário</Text>
           <Text style={styles.date}>
-            {new Date().toLocaleDateString('en-US', {
+            {new Date().toLocaleDateString('pt-BR', {
               month: 'short',
               day: 'numeric',
               year: 'numeric',
@@ -75,7 +75,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onFinish }) => {
         <View style={styles.center}>
           <ChallengeCard
             challenge={DAILY_CHALLENGE.text}
-            subtitle="Find the next number"
+            subtitle="Encontre o próximo número"
           />
           <AttemptIndicator attempts={attempts} maxAttempts={MAX_ATTEMPTS} />
         </View>

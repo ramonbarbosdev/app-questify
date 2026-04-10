@@ -60,12 +60,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
         <View style={styles.header}>
           <Text style={[styles.emoji]}>{won ? '🎉' : '😔'}</Text>
           <Text style={[styles.title, won ? styles.titleWon : styles.titleLost]}>
-            {won ? 'Brilliant!' : 'Not this time'}
+            {won ? 'Brilhante!' : 'Não desta vez'}
           </Text>
           <Text style={styles.subtitle}>
             {won
-              ? `Solved in ${attempts.indexOf('correct') + 1} attempt${attempts.indexOf('correct') > 0 ? 's' : ''}`
-              : 'Come back tomorrow for a new challenge'}
+              ? `Resolvido em ${attempts.indexOf('correct') + 1} tentativa${attempts.indexOf('correct') > 0 ? 's' : ''}`
+              : 'Volte amanhã para um novo desafio.'}
           </Text>
         </View>
 
@@ -74,13 +74,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
         <View style={styles.actions}>
           <Animated.View style={{ transform: [{ scale }], width: '100%' }}>
             <Pressable style={styles.shareButton} {...animatePress(handleShare)}>
-              <Text style={styles.shareText}>Share Result</Text>
+              <Text style={styles.shareText}>Compartilhar resultado</Text>
             </Pressable>
           </Animated.View>
 
           {onPlayAgain && (
             <Pressable style={styles.secondaryButton} onPress={onPlayAgain}>
-              <Text style={styles.secondaryText}>Play Again</Text>
+              <Text style={styles.secondaryText}>Jogue novamente</Text>
             </Pressable>
           )}
         </View>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   titleWon: {
-    color: Colors.accent,
+    color: Colors.button,
   },
   titleLost: {
     color: Colors.error,
@@ -132,13 +132,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   shareButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.button,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
   },
   shareText: {
-    color: Colors.background,
+    color: Colors.primary,
     fontSize: 17,
     fontWeight: '700',
   },
