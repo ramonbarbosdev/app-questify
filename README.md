@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+# Nivra
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Nivra é um aplicativo mobile de desafio diário focado em estimular o raciocínio lógico de forma simples, rápida e intuitiva.
 
-## Get started
+A proposta é oferecer uma experiência minimalista onde o usuário resolve um único desafio por dia, com um fluxo direto e sem distrações.
 
-1. Install dependencies
+## Conceito
 
-   ```bash
-   npm install
-   ```
+* Um desafio por dia
+* Tempo de execução curto (1 a 3 minutos)
+* Interface simples e objetiva
+* Foco em clareza e experiência do usuário
 
-2. Start the app
+O objetivo não é ser um jogo complexo, mas sim um hábito diário de estímulo mental.
 
-   ```bash
-   npx expo start
-   ```
+## Funcionalidades
 
-In the output, you'll find options to open the app in a
+* Exibição de desafio diário
+* Sistema de tentativas
+* Feedback de acerto e erro
+* Resultado visual ao final
+* Histórico de desempenho
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tecnologias
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+* React Native (Expo)
+* TypeScript
+* StyleSheet (UI nativa)
+* Backend (em evolução): Java com Spring Boot
 
-## Get a fresh project
+## Estrutura
 
-When you're ready, run:
+* Home: exibição do desafio
+* Result: resultado da tentativa
+* History: histórico de dias anteriores
 
-```bash
-npm run reset-project
-```
+## Objetivo do projeto
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Este projeto foi desenvolvido com foco em:
 
-## Learn more
+* Criação de um produto mobile simples e eficiente
+* Experiência do usuário com interface limpa e intuitiva
+* Arquitetura escalável e organizada
+* Aplicação de conceitos de produto e retenção de usuário
 
-To learn more about developing your project with Expo, look at the following resources:
+## Status
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Em desenvolvimento
 
-## Join the community
+## Autor
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Ramon Barbosa

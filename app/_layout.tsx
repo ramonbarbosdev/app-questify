@@ -1,24 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { useCallback, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { HomeScreen } from "./(app)/(stack)/HomeScreen";
+import { AttemptStatus } from "@/src/components/AttemptIndicator";
+type Screen = 'home' | 'result';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ResultScreen } from "./(app)/(stack)/ResultScreen";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+
+  const [screen, setScreen] = useState<Screen>('home');
+  const [attempts, setAttempts] = useState<AttemptStatus[]>([]);
+  const [guesses, setGuesses] = useState<string[]>([]);
+
+
+  const handleFinish = useCallback((a: AttemptStatus[], g: string[]) => {
+    setAttempts(a);
+    setGuesses(g);
+    setScreen('result');
+  }, []);
+
+  const handlePlayAgain = useCallback(() => {
+    setAttempts([]);
+    setGuesses([]);
+    setScreen('home');
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+
+      <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="light" />
+
+      {screen === 'home' ? (
+        <HomeScreen onFinish={handleFinish} />
+      ) : (
+        <ResultScreen
+          attempts={attempts}
+          guesses={guesses}
+          onPlayAgain={handlePlayAgain}
+        />
+
+      )}
+    </GestureHandlerRootView>
   );
 }
