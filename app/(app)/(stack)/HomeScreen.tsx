@@ -11,6 +11,7 @@ import { ChallengeCard } from '@/src/components/ChallengeCard';
 import { AnswerInput } from '@/src/components/AnswerInput';
 import { AttemptIndicator, AttemptStatus } from '@/src/components/AttemptIndicator';
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import HeaderHome from '@/src/components/HeaderHome';
 const MAX_ATTEMPTS = 5;
 
 // Example challenge — replace with real logic / API
@@ -55,22 +56,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onFinish }) => {
     }
   };
 
+  const isFinished = attempts.includes('correct') || attempts.length >= MAX_ATTEMPTS;
+
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <View style={styles.header}>
-          <Text style={styles.title}>Desafio Diário</Text>
-          <Text style={styles.date}>
-            {new Date().toLocaleDateString('pt-BR', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            })}
-          </Text>
-        </View>
+        <HeaderHome></HeaderHome>
 
         <View style={styles.center}>
           <ChallengeCard
@@ -85,7 +79,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onFinish }) => {
             value={input}
             onChangeText={setInput}
             onSubmit={handleCheck}
-            disabled={attempts.length >= MAX_ATTEMPTS}
+            disabled={isFinished}
           />
         </View>
       </KeyboardAvoidingView>
@@ -103,22 +97,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 32,
   },
-  header: {
-    alignItems: 'center',
-    paddingTop: 16,
-    gap: 4,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.secondary,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
-  date: {
-    fontSize: 13,
-    color: Colors.tertiary,
-  },
+ 
+ 
+
   center: {
     flex: 1,
     justifyContent: 'center',

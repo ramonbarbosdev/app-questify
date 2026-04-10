@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   buttonText: {
-    color: Colors.background,
+    color: Colors.primary,
     fontSize: 17,
     fontWeight: '700',
     letterSpacing: 0.5,
