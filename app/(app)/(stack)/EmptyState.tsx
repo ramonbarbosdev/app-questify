@@ -1,9 +1,10 @@
 import { Colors } from "@/src/theme/colors";
 import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function EmptyState() {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Você já concluiu o desafio de hoje</Text>
 
             <Text style={styles.subtitle}>
@@ -13,14 +14,15 @@ export default function EmptyState() {
             <Text style={styles.subtitle}>
                 Próximo desafio em 08:12:45
             </Text>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 40,
-        alignItems: "center",
+        flex: 1,
+        backgroundColor: Colors.background,
+        justifyContent:'center'
     },
     title: {
         color: Colors.primary,
