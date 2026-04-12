@@ -46,7 +46,7 @@ export default function Menu() {
 
     setResultado(tentativas, respostas);
 
-    if (d.respondido) {
+    if (d.flFinalizado) {
       router.push('/result');
       return;
     }
@@ -71,7 +71,7 @@ export default function Menu() {
         >
           <Text style={styles.pergunta}>{d.dsPergunta}</Text>
 
-          {d.respondido && (
+          {d.flFinalizado && (
             <Text style={styles.badge}>✔ Respondido</Text>
           )}
         </Pressable>

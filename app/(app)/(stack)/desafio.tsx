@@ -15,52 +15,56 @@ export default function DesafioScreen() {
     resposta,
     setResposta,
     erro,
-    finalizado,
     enviarResposta,
   } = useDesafio();
 
   const desafioAtual = useJogoStore((s) => s.desafioAtual);
   const tentativas = useJogoStore((s) => s.tentativas);
+  const respostas = useJogoStore((s) => s.respostas);
   const setResultado = useJogoStore((s) => s.setResultado);
 
   useEffect(() => {
     if (!desafioAtual) {
       router.replace('/menu');
     }
-
-    if (desafioAtual.flFinalizado) {
-      handleFinish();
-    }
   }, [desafioAtual]);
 
   if (!desafioAtual) return null;
 
-  const handleFinish = () => {
-    setResultado(tentativas, []);
-    router.replace('/result');
+  const handleEnviar = async () => {
+    const result = await enviarResposta();
+
+    if (!result) return;
+
+    if (result.finalizado) {
+      const novasTentativas = [...tentativas, result.status];
+
+      setResultado(novasTentativas, respostas);
+
+      router.replace('/result');
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.pergunta}>{desafioAtual.dsPergunta}</Text>
+      <Text style={styles.pergunta}>
+        {desafioAtual.dsPergunta}
+      </Text>
 
-      <IndicatorTentativa tentativas={tentativas} maxTentativas={5} />
+      <IndicatorTentativa
+        tentativas={tentativas}
+        maxTentativas={5}
+      />
 
       {erro && <Text style={styles.erro}>{erro}</Text>}
 
       <AnswerInput
         value={resposta}
         onChangeText={setResposta}
-        onSubmit={enviarResposta}
-        disabled={finalizado}
+        onSubmit={handleEnviar}
+        disabled={false}
         error={!!erro}
       />
-
-      {finalizado && (
-        <Pressable onPress={handleFinish}>
-          <Text style={styles.finalizar}>Ver resultado</Text>
-        </Pressable>
-      )}
 
       <Pressable onPress={() => router.back()}>
         <Text style={styles.voltar}>Voltar</Text>

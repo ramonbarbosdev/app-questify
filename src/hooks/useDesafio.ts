@@ -16,43 +16,44 @@ export const useDesafio = () => {
   const tentativas = useJogoStore((s) => s.tentativas);
   const adicionarTentativa = useJogoStore((s) => s.adicionarTentativa);
 
-  const enviarResposta = async () => {
-    if (!resposta.trim() || !desafioAtual || finalizado) return;
+const enviarResposta = async () => {
+  if (!resposta.trim() || !desafioAtual) return;
 
-    try {
-      setCarregando(true);
+  try {
+    const data = await desafioService.enviarResposta({
+      idDesafio: desafioAtual.idDesafio,
+      resposta,
+    });
 
-      const data = await desafioService.enviarResposta({
-        idDesafio: desafioAtual.idDesafio,
-        resposta,
-      });
-
-      if (data.resposta?.valido === false) {
-        setErro(data.resposta.mensagem);
-        return;
-      }
-
-      const status: StatusJogo =
-        data.resposta?.status || 'errado';
-
-      adicionarTentativa(status, resposta);
-
-      setResposta('');
-      setErro(null);
-
-      if (
-        data.sucesso ||
-        tentativas.length + 1 >= MAX_TENTATIVAS
-      ) {
-        setFinalizado(true);
-      }
-
-    } catch (e) {
-      setErro(getApiErrorMessage(e));
-    } finally {
-      setCarregando(false);
+    if (data.resposta?.valido === false) {
+      setErro(data.resposta.mensagem);
+      return { finalizado: false };
     }
-  };
+
+    const status = data.resposta?.status || 'errado';
+
+    adicionarTentativa(status, resposta);
+
+    setResposta('');
+    setErro(null);
+
+    const totalTentativas = tentativas.length + 1;
+
+    const finalizado =
+      data.sucesso === true ||
+      totalTentativas >= MAX_TENTATIVAS;
+
+    return {
+      finalizado,
+      sucesso: data.sucesso,
+      status,
+    };
+
+  } catch (e) {
+    setErro(getApiErrorMessage(e));
+    return { finalizado: false };
+  }
+};
 
   return {
     resposta,
