@@ -1,37 +1,22 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Colors } from '../theme/colors';
 import { StatusJogo } from '../types/StatusJogo';
+import { statusColorMap } from '../utils/statusColorMap';
 
-interface IndicatorTentativaProps {
-
+interface Props {
   tentativas: StatusJogo[];
   maxTentativas: number;
 }
 
-const statusColor: Record<StatusJogo, string> = {
-  pendente: Colors.gray,
-  correto: Colors.accent,
-  perto: Colors.yellow,
-  errado: Colors.error,
-  fechado: Colors.gray,
-};
-
-const normalizarStatus = (status: any): StatusJogo => {
-  if (status === 'correto') return 'correto';
-  if (status === 'perto') return 'perto';
-  if (status === 'errado') return 'errado';
-  return 'pendente';
-};
-
-export const IndicatorTentativa: React.FC<IndicatorTentativaProps> = ({
+export const IndicatorTentativa: React.FC<Props> = ({
   tentativas,
   maxTentativas,
 }) => {
 
+  // 🔥 padding automático com pendente
   const dots: StatusJogo[] = Array.from(
     { length: maxTentativas },
-    (_, i) => normalizarStatus(tentativas[i])
+    (_, i) => tentativas[i] ?? 'pendente'
   );
 
   return (
@@ -41,7 +26,7 @@ export const IndicatorTentativa: React.FC<IndicatorTentativaProps> = ({
           key={i}
           style={[
             styles.dot,
-            { backgroundColor: statusColor[status] },
+            { backgroundColor: statusColorMap[status] },
           ]}
         />
       ))}
