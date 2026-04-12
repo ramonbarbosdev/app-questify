@@ -1,6 +1,6 @@
-import { AttemptStatus } from "../components/AttemptIndicator";
+import { StatusTentativa } from "../components/IndicatorTentativa";
 
-export const mapearFeedback = (feedback: any): AttemptStatus => {
+export const mapearFeedback = (feedback: any): StatusTentativa => {
   if (!feedback) return 'wrong';
 
   if (typeof feedback === 'string') {

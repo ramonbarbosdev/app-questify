@@ -1,55 +1,66 @@
+import { Colors } from '@/src/theme/colors';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Colors } from '../theme/colors';
+import { StyleSheet, Text, View } from 'react-native';
+import { StatusJogo } from '../types/StatusJogo';
 
-export type CellStatus = 'correct' | 'close' | 'wrong';
 
-interface ResultGridProps {
-  /** Each row is an array of cell statuses */
-  rows: CellStatus[][];
+interface Props {
+  rows: StatusJogo[][];
   guesses: string[][];
 }
 
-const cellColor: Record<CellStatus, string> = {
-  correct: Colors.accent,
-  close: Colors.yellow,
-  wrong: Colors.gray,
+const statusColor: Record<StatusJogo, string> = {
+  pendente: Colors.gray,
+  correto: Colors.accent,
+  perto: Colors.yellow,
+  errado: Colors.error,
+  fechado: Colors.gray,
 };
 
-export const ResultGrid: React.FC<ResultGridProps> = ({ rows, guesses }) => (
-  <View style={styles.container}>
-    {rows.map((row, ri) => (
-      <View key={ri} style={styles.row}>
-        {row.map((status, ci) => (
-          <View key={ci} style={[styles.cell, { backgroundColor: cellColor[status] }]}>
-            <Text style={styles.cellText}>{guesses[ri]?.[ci] ?? ''}</Text>
-          </View>
-        ))}
-      </View>
-    ))}
-  </View>
-);
+export const ResultGrid: React.FC<Props> = ({ rows, guesses }) => {
+  return (
+    <View style={styles.grid}>
+      {rows.map((row, i) => (
+        <View key={i} style={styles.row}>
+          {row.map((cell, j) => (
+            <View
+              key={j}
+              style={[
+                styles.cell,
+                { backgroundColor: statusColor[cell] },
+              ]}
+            >
+              <Text style={styles.letter}>
+                {guesses[i]?.[j] || ''}
+              </Text>
+            </View>
+          ))}
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 6,
-    alignItems: 'center',
-    paddingVertical: 24,
+  grid: {
+    gap: 8,
+    marginTop: 16,
   },
   row: {
     flexDirection: 'row',
-    gap: 6,
-  },
-  cell: {
-    width: 52,
-    height: 52,
-    borderRadius: 10,
-    alignItems: 'center',
+    gap: 8,
     justifyContent: 'center',
   },
-  cellText: {
-    color: Colors.primary,
-    fontSize: 18,
+  cell: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  letter: {
+    color: '#fff',
     fontWeight: '700',
+    fontSize: 16,
   },
 });
