@@ -21,8 +21,11 @@ export default function PalavraDesafio({ pergunta }: any) {
 
         if (result.finalizado) {
             const novasTentativas = [...tentativas, result.status];
-           setResultado(novasTentativas, respostas, feedbacks);
-            router.replace('/result');
+            setResultado(novasTentativas, respostas, feedbacks);
+
+            setTimeout(() => {
+                router.replace('/result');
+            }, 700);
         }
     };
 
@@ -36,7 +39,7 @@ export default function PalavraDesafio({ pergunta }: any) {
             <PalavraGrid
                 respostas={respostas}
                 tentativas={tentativas}
-                feedbacks={feedbacks} 
+                feedbacks={feedbacks}
                 palavraLength={5}
                 maxTentativas={5}
                 currentInput={resposta}

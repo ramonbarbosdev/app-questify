@@ -24,13 +24,15 @@ export default function NumeroDesafio({ pergunta }: any) {
 
       setResultado(novasTentativas, respostas, feedbacks);
 
-      router.replace('/result');
+      setTimeout(() => {
+        router.replace('/result');
+      }, 700);
     }
   };
 
   return (
     <View style={styles.screen}>
-      
+
       <View style={styles.header}>
         <Text style={styles.pergunta}>{pergunta}</Text>
         <Text style={styles.helper}>Tente descobrir o número</Text>
