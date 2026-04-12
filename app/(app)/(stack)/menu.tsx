@@ -43,8 +43,9 @@ export default function Menu() {
 
     const tentativas = d?.resultado?.tentativas || [];
     const respostas = d?.resultado?.respostas || [];
+    const feedbacks = d?.resultado?.feedbacks || [];
 
-    setResultado(tentativas, respostas);
+    setResultado(tentativas, respostas,feedbacks);
 
     if (d.flFinalizado) {
       router.push('/result');

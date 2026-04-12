@@ -31,7 +31,7 @@ const enviar = async () => {
 
     const status = data.resposta.status;
 
-    adicionarTentativa(status, resposta);
+    adicionarTentativa(status, resposta,data.resposta.feedback );
 
     setResposta('');
     setErro(null);

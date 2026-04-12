@@ -6,12 +6,21 @@ interface JogoState {
 
   tentativas: StatusJogo[];
   respostas: string[];
+  feedbacks: string[][];
 
   setDesafioAtual: (desafio: any) => void;
 
-  adicionarTentativa: (tentativa: StatusJogo, resposta: string) => void;
+  adicionarTentativa: (
+    tentativa: StatusJogo,
+    resposta: string,
+    feedback: string[]
+  ) => void;
 
-  setResultado: (tentativas: StatusJogo[], respostas: string[]) => void;
+  setResultado: (
+    tentativas: StatusJogo[],
+    respostas: string[],
+    feedbacks: string[][]
+  ) => void;
 
   resetar: () => void;
 }
@@ -20,20 +29,23 @@ export const useJogoStore = create<JogoState>((set) => ({
   desafioAtual: null,
   tentativas: [],
   respostas: [],
+  feedbacks: [], // ✅ correto
 
   setDesafioAtual: (desafio) =>
     set({ desafioAtual: desafio }),
 
-  adicionarTentativa: (tentativa, resposta) =>
+  adicionarTentativa: (tentativa, resposta, feedback) =>
     set((state) => ({
       tentativas: [...state.tentativas, tentativa],
       respostas: [...state.respostas, resposta],
+      feedbacks: [...state.feedbacks, feedback], // ✅ ESSENCIAL
     })),
 
-  setResultado: (tentativas, respostas) =>
+  setResultado: (tentativas, respostas, feedbacks) =>
     set({
       tentativas: tentativas || [],
       respostas: respostas || [],
+      feedbacks: feedbacks || [], // ✅ ESSENCIAL
     }),
 
   resetar: () =>
@@ -41,5 +53,6 @@ export const useJogoStore = create<JogoState>((set) => ({
       desafioAtual: null,
       tentativas: [],
       respostas: [],
+      feedbacks: [], // ✅ não esquecer
     }),
 }));
