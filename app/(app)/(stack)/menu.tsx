@@ -75,12 +75,11 @@ export default function Menu() {
         </View>
 
         <View style={styles.statsRow}>
-          <Stat label="Jogos" value={total} />
+          <Stat label="Desafios" value={total} />
           <Stat label="Vitórias" value={vitorias} />
           <Stat label="Taxa" value={`${taxa}%`} />
         </View>
 
-        {/* PROGRESSO + STREAK */}
         <View style={styles.progressCard}>
           <Text style={styles.progressTitle}>
             Progresso do dia
@@ -127,7 +126,6 @@ export default function Menu() {
           </View>
         </View>
 
-        {/* LISTA */}
         <Text style={styles.sectionTitle}>
           Desafios disponíveis
         </Text>
