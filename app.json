@@ -45,13 +45,12 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
+    "owner": "w5i-tecnologia",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "b491f114-3269-4599-acbd-0a88ef2c8219"
+        "projectId": "8620f78f-2451-4edd-b3c9-e957ef1479fd"
       }
-    },
-    "owner": "w5i-tecnologia-organizacao"
-
+    }
   }
 }
