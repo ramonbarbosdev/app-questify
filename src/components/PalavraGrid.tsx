@@ -88,9 +88,13 @@ function PalavraRow({
   return (
     <View style={styles.row}>
       {Array.from({ length: palavraLength }).map((_, index) => {
-        const char = isActive
-          ? currentInput[index] || ''
-          : palavra?.[index] || '';
+        const isFilled = !!palavra;
+
+        const char = isFilled
+          ? palavra[index]
+          : isActive
+            ? currentInput[index] || ''
+            : '';
 
         const status = isFilled ? feedback?.[index] : undefined;
 

@@ -17,15 +17,24 @@ export default function PalavraDesafio({ pergunta }: any) {
 
     const handleEnviar = async () => {
         const result = await enviarResposta();
+
+
         if (!result) return;
 
         if (result.finalizado) {
             const novasTentativas = [...tentativas, result.status];
-            setResultado(novasTentativas, respostas, feedbacks);
+            const novasRespostas = [...respostas, result.resposta].filter((r): r is string => r !== undefined);
+            const novosFeedbacks = [...feedbacks, result.feedback];
+
+            setResultado(
+                novasTentativas,
+                novasRespostas,
+                novosFeedbacks
+            );
 
             setTimeout(() => {
                 router.replace('/result');
-            }, 700);
+            }, 1000);
         }
     };
 

@@ -11,47 +11,48 @@ export const useBaseDesafio = () => {
   const adicionarTentativa = useJogoStore((s) => s.adicionarTentativa);
 
 
-const enviar = async () => {
-  if (!resposta.trim() || !desafioAtual) return;
+  const enviar = async () => {
+    if (!resposta.trim() || !desafioAtual) return;
 
-  try {
-    const data = await desafioService.enviarResposta({
-      idDesafio: desafioAtual.idDesafio,
-      resposta,
-    });
+    try {
+      const data = await desafioService.enviarResposta({
+        idDesafio: desafioAtual.idDesafio,
+        resposta,
+      });
 
+      if (data.resposta?.valido === false) {
+        setErro(data.resposta.mensagem);
+        return {
+          finalizado: false,
+        };
+      }
 
-    if (data.resposta?.valido === false) {
-      setErro(data.resposta.mensagem);
+      const status = data.resposta.status;
+      const respostaAtual = data.resposta.respostaUsuario ?? resposta;
+      adicionarTentativa(status, respostaAtual, data.resposta.feedback);
+
+      setResposta('');
+      setErro(null);
+
+      return {
+        status,
+        sucesso: data.sucesso,
+        flFinalizado: data.flFinalizado,
+        tpDesafio: data.tpDesafio,
+        resposta: respostaAtual, 
+        feedback: data.resposta.feedback ?? [], 
+      };
+
+    } catch (e) {
+      const mensagem = getApiErrorMessage(e);
+
+      setErro(mensagem);
+
       return {
         finalizado: false,
       };
     }
-
-    const status = data.resposta.status;
-
-    adicionarTentativa(status, resposta,data.resposta.feedback );
-
-    setResposta('');
-    setErro(null);
-
-    return {
-      status,
-      sucesso: data.sucesso,
-      flFinalizado: data.flFinalizado,
-      tpDesafio: data.tpDesafio,
-    };
-
-  } catch (e) {
-    const mensagem = getApiErrorMessage(e);
-
-    setErro(mensagem);
-
-    return {
-      finalizado: false,
-    };
-  }
-};
+  };
   return {
     resposta,
     setResposta,

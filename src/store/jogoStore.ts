@@ -29,7 +29,7 @@ export const useJogoStore = create<JogoState>((set) => ({
   desafioAtual: null,
   tentativas: [],
   respostas: [],
-  feedbacks: [], // ✅ correto
+  feedbacks: [], 
 
   setDesafioAtual: (desafio) =>
     set({ desafioAtual: desafio }),

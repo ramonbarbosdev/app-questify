@@ -20,9 +20,12 @@ export default function NumeroDesafio({ pergunta }: any) {
     if (!result) return;
 
     if (result.finalizado) {
-      const novasTentativas = [...tentativas, result.status];
 
-      setResultado(novasTentativas, respostas, feedbacks);
+      const novasTentativas = [...tentativas, result.status];
+      const novasRespostas = [...respostas, result.resposta];
+      const novosFeedbacks = [...feedbacks, result.feedback ?? []];
+
+      setResultado(novasTentativas, novasRespostas, novosFeedbacks);
 
       setTimeout(() => {
         router.replace('/result');
