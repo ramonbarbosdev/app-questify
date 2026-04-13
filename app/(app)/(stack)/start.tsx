@@ -18,48 +18,63 @@ export default function Start() {
 
     const desafios = useJogoStore((s) => s.desafios);
 
+    const pendentes = desafios.filter((d) => !d.flFinalizado).length;
+
+    const textoPendentes =
+        pendentes === 0
+            ? 'Todos os desafios concluídos!'
+            : pendentes === 1
+                ? 'Você tem 1 desafio restante'
+                : `Você tem ${pendentes} desafios restantes`;
+
     useEffect(() => {
         carregar();
     }, []);
 
-  const carregar = async () => {
-  try {
-    const lista = await desafioService.buscarDesafio('');
-    setDesafios(lista);
+    const carregar = async () => {
+        try {
+            const lista = await desafioService.buscarDesafio('');
+            setDesafios(lista);
 
-    const pendentes = lista.filter((d:any) => !d.flFinalizado);
+            const pendentes = lista.filter((d: any) => !d.flFinalizado);
 
-    // todos finalizados = menu
-    if (pendentes.length === 0) {
-      router.replace('/menu');
-      return;
-    }
+            // todos finalizados = menu
+            if (pendentes.length === 0) {
+                router.replace('/menu');
+                return;
+            }
 
-    // só 1 pendente = entra direto
-    if (pendentes.length === 1) {
-      const index = lista.findIndex((d:any) => !d.flFinalizado);
+            // só 1 pendente = entra direto
+            if (pendentes.length === 1) {
+                const index = lista.findIndex((d: any) => !d.flFinalizado);
 
-      setIndiceAtual(index);
-      setDesafioAtual(lista[index]);
+                setIndiceAtual(index);
+                setDesafioAtual(lista[index]);
 
-      router.replace('/desafio');
-      return;
-    }
+                router.replace('/desafio');
+                return;
+            }
 
-  } finally {
-    setLoading(false);
-  }
-};
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleStart = () => {
-        if (!desafios.length) return;
+        const pendentes = desafios.filter((d) => !d.flFinalizado);
 
-        setIndiceAtual(0);
-        setDesafioAtual(desafios[0]);
+        if (!pendentes.length) {
+            router.replace('/menu');
+            return;
+        }
+
+        const index = desafios.findIndex((d) => !d.flFinalizado);
+
+        setIndiceAtual(index);
+        setDesafioAtual(desafios[index]);
 
         router.replace('/desafio');
     };
-
     return (
         <SafeAreaView style={styles.safe}>
             <View style={styles.container}>
@@ -71,9 +86,7 @@ export default function Start() {
                     </Text>
 
                     <Text style={styles.subtitle}>
-                        {loading
-                            ? 'Carregando...'
-                            : `${desafios.length} desafios disponíveis hoje`}
+                       {textoPendentes}
                     </Text>
 
                     <Pressable
@@ -98,7 +111,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.background,
     },
-
     container: {
         flex: 1,
         justifyContent: 'center',

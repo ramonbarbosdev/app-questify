@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
@@ -45,7 +45,16 @@ export default function DesafioScreen() {
   return (
     <SafeAreaView style={styles.container}>
 
-    <HeaderHome></HeaderHome>
+      <View style={styles.topBar}>
+        <HeaderHome />
+
+        <Pressable
+          style={styles.menuButton}
+          onPress={() => router.replace('/menu')}
+        >
+          <Text style={styles.menuText}>Sair</Text>
+        </Pressable>
+      </View>
 
       <Animated.View style={[styles.content, animatedStyle]}>
         <DesafioRenderer
@@ -53,6 +62,7 @@ export default function DesafioScreen() {
           pergunta={desafioAtual.dsPergunta}
         />
       </Animated.View>
+
 
     </SafeAreaView>
   );
@@ -75,4 +85,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+
+  topBar: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+},
+
+menuButton: {
+  paddingHorizontal: 12,
+  paddingVertical: 6,
+  borderRadius: 10,
+},
+
+menuText: {
+  color: Colors.secondary,
+  fontSize: 13,
+},
 });
