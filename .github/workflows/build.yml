@@ -1,38 +1,38 @@
-name: Build Android Preview
+# name: Build Android Preview
 
-on:
-  push:
-    branches:
-      - master   
+# on:
+#   push:
+#     branches:
+#       - master   
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm
+#       - name: Setup Node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+#           cache: npm
           
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli@latest
+#       - name: Install EAS CLI
+#         run: npm install -g eas-cli@latest
 
-      - name: Verify EAS version
-        run: eas --version
+#       - name: Verify EAS version
+#         run: eas --version
 
-      - name: Clean prebuild
-        run: npx expo prebuild --clean
+#       - name: Clean prebuild
+#         run: npx expo prebuild --clean
 
-      - name: Build Android (Preview)
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: eas build --platform android --profile preview --non-interactive --clear-cache
+#       - name: Build Android (Preview)
+#         env:
+#           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+#         run: eas build --platform android --profile preview --non-interactive --clear-cache
