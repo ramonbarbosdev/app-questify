@@ -14,6 +14,9 @@ export default function PalavraDesafio({ pergunta }: any) {
     const respostas = useJogoStore((s) => s.respostas);
     const setResultado = useJogoStore((s) => s.setResultado);
     const feedbacks = useJogoStore((s) => s.feedbacks);
+    const desafioAtual = useJogoStore((s) => s.desafioAtual);
+
+    console.log(desafioAtual)
 
     const handleEnviar = async () => {
         const result = await enviarResposta();
@@ -49,8 +52,8 @@ export default function PalavraDesafio({ pergunta }: any) {
                 respostas={respostas}
                 tentativas={tentativas}
                 feedbacks={feedbacks}
-                palavraLength={5}
-                maxTentativas={5}
+                palavraLength={desafioAtual.nuTamanhoResposta}
+                maxTentativas={desafioAtual.nuMaximoTentativa}
                 currentInput={resposta}
             />
 

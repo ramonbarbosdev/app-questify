@@ -68,7 +68,7 @@ export default function Start() {
 
     const carregar = useCallback(async () => {
         try {
-            const lista = await desafioService.buscarDesafio('');
+            const lista = await desafioService.buscarDesafio();
             setDesafios(lista);
             const pendentes = lista.filter((d: any) => !d.flFinalizado);
             if (pendentes.length === 0) router.replace('/EmptyState');
@@ -105,7 +105,6 @@ export default function Start() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            {/* Decorative background orbs */}
             <Animated.View
                 style={[styles.orbTop, { opacity: glowAnim, transform: [{ scale: pulseAnim }] }]}
             />
@@ -117,12 +116,10 @@ export default function Start() {
                     { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
                 ]}
             >
-                {/* Header label */}
                 <View style={styles.headerRow}>
                      <Logo />
                 </View>
 
-                {/* Big counter */}
                 {!loading && (
                     <View style={styles.counterBlock}>
                         <Text style={styles.counterNumber}>{pendentes}</Text>
@@ -138,14 +135,12 @@ export default function Start() {
                     </View>
                 )}
 
-                {/* Divider */}
                 <View style={styles.dividerRow}>
                     <View style={styles.dividerLine} />
                     <View style={styles.dividerDiamond} />
                     <View style={styles.dividerLine} />
                 </View>
 
-                {/* Metadata row */}
                 <View style={styles.metaRow}>
                     <View style={styles.metaPill}>
                         <View style={[styles.metaDot, { backgroundColor: Colors.accent }]} />
@@ -157,7 +152,6 @@ export default function Start() {
                     </View>
                 </View>
 
-                {/* CTA Button */}
                 <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
                     <Pressable
                         style={[styles.button, loading && styles.buttonDisabled]}
@@ -166,7 +160,6 @@ export default function Start() {
                         onPressOut={handlePressOut}
                         disabled={loading}
                     >
-                        {/* Inner glow layer */}
                         <View style={styles.buttonGlow} />
                         <Text style={styles.buttonText}>Jogar agora</Text>
                         <View style={styles.buttonArrow}>
@@ -175,7 +168,6 @@ export default function Start() {
                     </Pressable>
                 </Animated.View>
 
-                {/* Footer hint */}
                 <Text style={styles.footerHint}>
                     Novos desafios desbloqueiam toda meia-noite
                 </Text>

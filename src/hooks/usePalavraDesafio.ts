@@ -5,7 +5,6 @@ export const usePalavraDesafio = () => {
 
   const enviarResposta = async () => {
     const result = await base.enviar();
-
     if (!result) return;
 
     const finalizado =

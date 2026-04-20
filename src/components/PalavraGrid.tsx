@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import Animated, {
   useSharedValue,
@@ -9,10 +9,34 @@ import Animated, {
 } from 'react-native-reanimated';
 
 /* =========================
+   RESPONSIVO
+========================= */
+
+const screenWidth = Dimensions.get('window').width;
+
+function getCellSize(palavraLength: number) {
+  const paddingHorizontal = 32;
+
+  const gap = palavraLength > 8 ? 4 : 8;
+
+  const totalGap = (palavraLength - 1) * gap;
+  const availableWidth = screenWidth - paddingHorizontal - totalGap;
+
+  const size = Math.floor(availableWidth / palavraLength);
+
+  // limites pra não ficar ridículo
+  return Math.min(64, Math.max(32, size));
+}
+
+function getGap(palavraLength: number) {
+  return palavraLength > 8 ? 4 : 8;
+}
+
+/* =========================
    LETRA CELL
 ========================= */
 
-function LetraCell({ char, status, revealed, index }: any) {
+function LetraCell({ char, status, revealed, index, size }: any) {
   const rotate = useSharedValue(0);
 
   React.useEffect(() => {
@@ -51,10 +75,12 @@ function LetraCell({ char, status, revealed, index }: any) {
     : '#1a1a1a';
 
   return (
-    <View style={styles.cellWrapper}>
+    <View style={{ width: size, height: size }}>
       {/* Frente */}
       <Animated.View style={[styles.cell, frontStyle]}>
-        <Text style={styles.cellText}>{char}</Text>
+        <Text style={[styles.cellText, { fontSize: size * 0.45 }]}>
+          {char}
+        </Text>
       </Animated.View>
 
       {/* Verso */}
@@ -66,7 +92,9 @@ function LetraCell({ char, status, revealed, index }: any) {
           backStyle,
         ]}
       >
-        <Text style={styles.cellText}>{char}</Text>
+        <Text style={[styles.cellText, { fontSize: size * 0.45 }]}>
+          {char}
+        </Text>
       </Animated.View>
     </View>
   );
@@ -85,11 +113,12 @@ function PalavraRow({
 }: any) {
   const isFilled = !!palavra;
 
-  return (
-    <View style={styles.row}>
-      {Array.from({ length: palavraLength }).map((_, index) => {
-        const isFilled = !!palavra;
+  const cellSize = getCellSize(palavraLength);
+  const gap = getGap(palavraLength);
 
+  return (
+    <View style={[styles.row, { gap }]}>
+      {Array.from({ length: palavraLength }).map((_, index) => {
         const char = isFilled
           ? palavra[index]
           : isActive
@@ -105,6 +134,7 @@ function PalavraRow({
             status={status}
             revealed={isFilled}
             index={index}
+            size={cellSize}
           />
         );
       })}
@@ -118,7 +148,6 @@ function PalavraRow({
 
 export function PalavraGrid({
   respostas,
-  tentativas,
   feedbacks,
   palavraLength,
   maxTentativas,
@@ -154,11 +183,11 @@ export function PalavraGrid({
 function getColor(status?: string) {
   switch (status) {
     case 'correto':
-      return '#22c55e'; // verde
+      return '#22c55e';
     case 'perto':
-      return '#eab308'; // amarelo
+      return '#eab308';
     case 'errado':
-      return '#3f3f46'; // cinza
+      return '#3f3f46';
     default:
       return 'transparent';
   }
@@ -177,20 +206,6 @@ const styles = StyleSheet.create({
 
   row: {
     flexDirection: 'row',
-    gap: 8,
-  },
-
-  activeRow: {
-    opacity: 1,
-  },
-
-  inactiveRow: {
-    opacity: 0.6,
-  },
-
-  cellWrapper: {
-    width: 56,
-    height: 56,
   },
 
   cell: {
@@ -211,7 +226,6 @@ const styles = StyleSheet.create({
 
   cellText: {
     color: '#fff',
-    fontSize: 22,
     fontWeight: '700',
   },
 });

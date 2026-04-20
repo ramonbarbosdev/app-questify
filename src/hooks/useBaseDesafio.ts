@@ -13,7 +13,6 @@ export const useBaseDesafio = () => {
 
   const enviar = async () => {
     if (!resposta.trim() || !desafioAtual) return;
-
     try {
       const data = await desafioService.enviarResposta({
         idDesafio: desafioAtual.idDesafio,

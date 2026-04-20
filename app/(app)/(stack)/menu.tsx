@@ -20,7 +20,9 @@ export default function Menu() {
   const slideAnim = useRef(new Animated.Value(24)).current;
 
   const carregar = async () => {
-    const lista = await desafioService.buscarDesafio('');
+    const lista = await desafioService.buscarDesafio();
+    if (!lista.length) { router.replace('/EmptyState'); return; }
+
     setDesafios(lista);
 
     Animated.parallel([
@@ -371,7 +373,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     borderColor: Colors.gray,
-    marginBottom:10
+    marginBottom: 10
   },
   progressMeta: {
     flexDirection: 'row',
@@ -436,7 +438,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray,
     overflow: 'hidden',
-    marginBottom:10
+    marginBottom: 10
   },
   statAccentBar: {
     position: 'absolute',
@@ -526,7 +528,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     marginTop: 4,
-    marginBottom:5
+    marginBottom: 5
   },
   sectionLine: {
     flex: 1,
