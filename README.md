@@ -1,17 +1,40 @@
-# Questify
+# Questify Go
 
-Questify é um aplicativo mobile de desafio diário focado em estimular o raciocínio lógico de forma simples, rápida e intuitiva.
+**Questify Go** é um aplicativo mobile de desafio diário focado em estimular o raciocínio lógico de forma simples, rápida e intuitiva.
 
-A proposta é oferecer uma experiência minimalista onde o usuário resolve um único desafio por dia, com um fluxo direto e sem distrações.
+A proposta é criar um **hábito diário de estímulo mental**, com uma experiência minimalista e sem distrações.
+
+---
+
+## Preview
+
+<p align="center">
+  <img src="docs/images/home.png" width="250"/>
+  <img src="docs/images/result.png" width="250"/>
+  <img src="docs/images/history.png" width="250"/>
+</p>
+
+---
 
 ## Conceito
 
 * Um desafio por dia
-* Tempo de execução curto (1 a 3 minutos)
+* Execução rápida (1 a 3 minutos)
 * Interface simples e objetiva
-* Foco em clareza e experiência do usuário
+* Foco total na experiência do usuário
 
-O objetivo não é ser um jogo complexo, mas sim um hábito diário de estímulo mental.
+Não é um jogo complexo — é um ritual diário de pensamento.
+
+---
+
+## Proposta
+
+O usuário acessa o app, resolve um desafio único do dia e recebe feedback imediato.
+
+Sem menus complexos. Sem excesso de informações.
+Apenas **desafio → tentativa → resultado**.
+
+---
 
 ## Funcionalidades
 
@@ -21,69 +44,107 @@ O objetivo não é ser um jogo complexo, mas sim um hábito diário de estímulo
 * Resultado visual ao final
 * Histórico de desempenho
 
+---
+
+## Tipos de desafio
+
+Atualmente o sistema trabalha com desafios baseados em:
+
+* Palavra (estilo Termo - 5 letras)
+* Número
+* Quiz
+* Padrão lógico
+
+---
+
 ## Tecnologias
+
+### Mobile
 
 * React Native (Expo)
 * TypeScript
 * StyleSheet (UI nativa)
-* Backend: Java com Spring Boot
 
-## Estrutura
+### Backend
 
-* Home: exibição do desafio
-* Result: resultado da tentativa
-* History: histórico de dias anteriores
+* Java + Spring Boot
+* Spring AI (Gemini)
+* PostgreSQL
 
-## Objetivo do projeto
+---
 
-Este projeto foi desenvolvido com foco em:
+## Arquitetura
 
-* Criação de um produto mobile simples e eficiente
-* Experiência do usuário com interface limpa e intuitiva
-* Arquitetura escalável e organizada
-* Aplicação de conceitos de produto e retenção de usuário
+### Mobile
 
+* Home → desafio do dia
+* Result → resultado da tentativa
+* History → histórico do usuário
 
-##  Build Remoto (EAS) -  Android 
+### Backend
 
-- Essa é a preparação para o build do projeto no Android
+* Geração de desafios com IA
+* Validação de regras (ex: palavra de 5 letras)
+* Controle de desafio diário
+* Persistência de dados
 
-1. Variaveis de Ambiente 
+---
 
-Criar variável no EAS
+## IA no projeto
 
-```bash
-  eas env:create
+O sistema utiliza IA para gerar desafios dinâmicos, com regras controladas pelo backend.
+
+Fluxo:
+
+```text
+IA gera conteúdo → Backend valida → Sistema entrega desafio
 ```
 
-Para atualizar 
+Isso garante:
+
+* consistência
+* qualidade
+* controle de regras
+
+---
+
+## Build Remoto (EAS) — Android
+
+### Criar variável de ambiente
 
 ```bash
-  npx eas env:update
+eas env:create
 ```
 
-Preencha (caso seja preview):
+### Atualizar variável
 
- - Nome: EXPO_PUBLIC_API_URL
+```bash
+npx eas env:update
+```
 
- - Valor: https://api-homolog.seudominio.com
+### Configuração
 
- - Visibilidade: Plain text
+* Nome: `EXPO_PUBLIC_API_URL`
+* Valor: `https://api-homolog.seudominio.com`
+* Visibilidade: Plain text
 
- - Instruçao: Use a tecla espaço para marcar o ambiente.
+Selecionar ambiente:
 
-      ```bash
-      ◉ preview
-      ◯ development
-      ◯ production
-      ```
+```bash
+◉ preview
+◯ development
+◯ production
+```
 
-Repita o processo para production, se necessário.
+Repita para `production` se necessário.
 
+---
 
 ## Status
 
-Em Produção
+Em produção
+
+---
 
 ## Autor
 
