@@ -4,7 +4,7 @@
     "slug": "app-nivra",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon2.png",
     "scheme": "appquestify",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#E6F4FE"
+        "foregroundImage": "./assets/images/icon2.png",
+        "backgroundColor": "#16161A"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,

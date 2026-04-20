@@ -145,39 +145,60 @@ export default function Result() {
                             <Text style={styles.cardLabelText}>SUAS TENTATIVAS</Text>
                         </View>
 
-                        <View style={styles.grid}>
-                            {respostas.map((palavra, i) => (
-                                <View key={i} style={styles.row}>
-                                    {palavra.split('').map((letra, j) => {
-                                        const status = tentativas[i] ?? 'incorreto';
-                                        const isLast = i === idxCorreto;
-                                        const cellColor =
-                                            isLast
-                                                ? Colors.accent
-                                                : status === 'correto'
-                                                    ? Colors.accent
-                                                    : Colors.gray;
+                        <View style={styles.attemptsContainer}>
+                            {respostas.map((palavra, i) => {
+                                const status = tentativas[i] ?? 'incorreto';
+                                const isLast = i === idxCorreto;
+                                const isQuiz = desafios[indiceAtual]?.tpDesafio === 'QUIZ';
 
-                                        return (
-                                            <View
-                                                key={j}
-                                                style={[
-                                                    styles.cell,
-                                                    {
-                                                        backgroundColor: `${cellColor}22`,
-                                                        borderColor: `${cellColor}66`,
-                                                        shadowColor: isLast ? Colors.accent : 'transparent',
-                                                    },
-                                                ]}
-                                            >
-                                                <Text style={[styles.cellText, { color: isLast ? Colors.accent : Colors.primary }]}>
-                                                    {letra.toUpperCase()}
-                                                </Text>
-                                            </View>
-                                        );
-                                    })}
-                                </View>
-                            ))}
+                                // Se for QUIZ, renderiza uma bolha de texto simples
+                                if (isQuiz) {
+                                    return (
+                                        <View key={i} style={[
+                                            styles.quizAttemptBubble,
+                                            {
+                                                backgroundColor: isLast ? `${Colors.accent}22` : `${Colors.gray}22`,
+                                                borderColor: isLast ? Colors.accent : Colors.gray
+                                            }
+                                        ]}>
+                                            <Text style={[styles.quizAttemptText, { color: isLast ? Colors.accent : Colors.primary }]}>
+                                                {palavra}
+                                            </Text>
+                                            <Ionicons
+                                                name={isLast ? "checkmark-circle" : "close-circle"}
+                                                size={16}
+                                                color={isLast ? Colors.accent : Colors.gray}
+                                            />
+                                        </View>
+                                    );
+                                }
+
+                                // Se for PALAVRA, mantém o Grid original
+                                return (
+                                    <View key={i} style={styles.row}>
+                                        {palavra.split('').map((letra, j) => {
+                                            const cellColor = isLast || status === 'correto' ? Colors.accent : Colors.gray;
+                                            return (
+                                                <View
+                                                    key={j}
+                                                    style={[
+                                                        styles.cell,
+                                                        {
+                                                            backgroundColor: `${cellColor}22`,
+                                                            borderColor: `${cellColor}66`,
+                                                            shadowColor: isLast ? Colors.accent : 'transparent',
+                                                        },
+                                                    ]}
+                                                >
+                                                    <Text style={[styles.cellText, { color: isLast ? Colors.accent : Colors.primary }]}>
+                                                        {letra.toUpperCase()}
+                                                    </Text>
+                                                </View>
+                                            );
+                                        })}
+                                    </View>
+                                );
+                            })}
                         </View>
                     </View>
                 )}
@@ -434,5 +455,28 @@ const styles = StyleSheet.create({
         color: Colors.tertiary,
         fontSize: 13,
         fontWeight: '500',
+    },
+
+    // Adicione dentro de styles:
+    attemptsContainer: {
+        alignItems: 'center',
+        gap: 8,
+        width: '100%',
+    },
+    quizAttemptBubble: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        borderWidth: 1,
+        width: '100%', // Ocupa a largura total do card
+        gap: 10,
+    },
+    quizAttemptText: {
+        fontSize: 15,
+        fontWeight: '600',
+        flex: 1, // Faz o texto ocupar o espaço e quebrar linha se necessário
     },
 });
