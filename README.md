@@ -43,6 +43,44 @@ Este projeto foi desenvolvido com foco em:
 * Arquitetura escalável e organizada
 * Aplicação de conceitos de produto e retenção de usuário
 
+
+##  Build Remoto (EAS) -  Android 
+
+- Essa é a preparação para o build do projeto no Android
+
+1. Variaveis de Ambiente 
+
+Criar variável no EAS
+
+```bash
+  eas env:create
+```
+
+Para atualizar 
+
+```bash
+  npx eas env:update
+```
+
+Preencha (caso seja preview):
+
+ - Nome: EXPO_PUBLIC_API_URL
+
+ - Valor: https://api-homolog.seudominio.com
+
+ - Visibilidade: Plain text
+
+ - Instruçao: Use a tecla espaço para marcar o ambiente.
+
+      ```bash
+      ◉ preview
+      ◯ development
+      ◯ production
+      ```
+
+Repita o processo para production, se necessário.
+
+
 ## Status
 
 Em Produção
