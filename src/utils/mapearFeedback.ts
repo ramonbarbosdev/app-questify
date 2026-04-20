@@ -1,4 +1,4 @@
-import { StatusTentativa } from "../components/IndicatorTentativa";
+type StatusTentativa = 'correct' | 'close' | 'wrong';
 
 export const mapearFeedback = (feedback: any): StatusTentativa => {
   if (!feedback) return 'wrong';

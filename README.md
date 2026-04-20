@@ -45,7 +45,7 @@ Este projeto foi desenvolvido com foco em:
 
 ## Status
 
-Em desenvolvimento
+Em Produção
 
 ## Autor
 

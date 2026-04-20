@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+
 import { useJogoStore } from '@/src/store/jogoStore';
 import { Colors } from '@/src/theme/colors';
 
@@ -20,15 +21,19 @@ export default function Result() {
     respostas,
     desafios,
     indiceAtual,
-    proximoDesafio,
+    setIndiceAtual,
     setDesafioAtual,
+    setResultado,
     resetar,
   } = useJogoStore();
 
   const idxCorreto = tentativas.indexOf('correto');
   const ganhou = idxCorreto !== -1;
 
-  const temProximo = indiceAtual < desafios.length - 1;
+  const proximoPendenteIndex = desafios.findIndex(
+    (desafio, index) => index > indiceAtual && !desafio.flFinalizado
+  );
+  const temProximo = proximoPendenteIndex !== -1;
 
   const fade = React.useRef(new Animated.Value(0)).current;
 
@@ -38,13 +43,17 @@ export default function Result() {
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [fade]);
 
   const handleNext = () => {
-    const nextIndex = indiceAtual + 1;
+    if (!temProximo) {
+      router.replace('/EmptyState');
+      return;
+    }
 
-    proximoDesafio();
-    setDesafioAtual(desafios[nextIndex]);
+    setIndiceAtual(proximoPendenteIndex);
+    setDesafioAtual(desafios[proximoPendenteIndex]);
+    setResultado([], [], []);
 
     router.replace('/desafio');
   };
@@ -73,7 +82,6 @@ export default function Result() {
           </Text>
         </View>
 
-        {/* GRID CORRETO */}
         <View style={styles.grid}>
           {respostas.map((palavra, i) => (
             <View key={i} style={styles.row}>
@@ -88,7 +96,6 @@ export default function Result() {
           ))}
         </View>
 
-        {/* BOTÃO PRINCIPAL */}
         <Pressable
           style={styles.primaryButton}
         >
@@ -97,15 +104,12 @@ export default function Result() {
           </Text>
         </Pressable>
 
-        {/* SECUNDÁRIO */}
-        <Pressable style={styles.secondaryButton}  onPress={
-            temProximo
-              ? handleNext
-              : () => router.replace('/menu')
-          }>
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={handleNext}
+        >
           <Text style={styles.secondaryText}>
-            {temProximo ? 'Próximo desafio' : 'Voltar ao menu'}
-
+            {temProximo ? 'Próximo desafio' : 'Aguardar novo desafio'}
           </Text>
         </Pressable>
 
@@ -113,7 +117,7 @@ export default function Result() {
           style={styles.secondaryButton}
           onPress={() => {
             resetar();
-            router.replace('/menu');
+            router.replace(temProximo ? '/menu' : '/EmptyState');
           }}
         >
           <Text style={styles.secondaryText}>
@@ -125,6 +129,7 @@ export default function Result() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -134,9 +139,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent:'center',
-        paddingHorizontal: 40,
-
+    justifyContent: 'center',
+    paddingHorizontal: 40,
   },
 
   header: {

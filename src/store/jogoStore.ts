@@ -22,7 +22,7 @@ interface JogoState {
   adicionarTentativa: (
     tentativa: StatusJogo,
     resposta: string,
-    feedback: string[]
+    feedback?: string[]
   ) => void;
 
   setResultado: (

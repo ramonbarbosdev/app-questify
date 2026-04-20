@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -21,56 +21,42 @@ export default function Start() {
     const pendentes = desafios.filter((d) => !d.flFinalizado).length;
 
     const textoPendentes =
-        pendentes === 0
-            ? 'Todos os desafios concluídos!'
+        loading
+            ? 'Buscando desafios...'
             : pendentes === 1
-                ? 'Você tem 1 desafio restante'
-                : `Você tem ${pendentes} desafios restantes`;
+                ? 'Você tem 1 desafio para jogar'
+                : `Você tem ${pendentes} desafios para jogar`;
 
-    useEffect(() => {
-        carregar();
-    }, []);
-
-    const carregar = async () => {
+    const carregar = useCallback(async () => {
         try {
             const lista = await desafioService.buscarDesafio('');
             setDesafios(lista);
 
             const pendentes = lista.filter((d: any) => !d.flFinalizado);
 
-            // todos finalizados = menu
             if (pendentes.length === 0) {
-                router.replace('/menu');
-                return;
+                router.replace('/EmptyState');
             }
-
-            // só 1 pendente = entra direto
-            if (pendentes.length === 1) {
-                const index = lista.findIndex((d: any) => !d.flFinalizado);
-
-                setIndiceAtual(index);
-                setDesafioAtual(lista[index]);
-
-                router.replace('/desafio');
-                return;
-            }
-
         } catch (e) {
-            console.log("ERRO COMPLETO:", e);
+            console.log('ERRO COMPLETO:', e);
             Alert.alert(
-                "Erro ao buscar",
+                'Erro ao buscar',
                 JSON.stringify(e)
             );
         } finally {
             setLoading(false);
         }
-    };
+    }, [router, setDesafios]);
+
+    useEffect(() => {
+        carregar();
+    }, [carregar]);
 
     const handleStart = () => {
         const pendentes = desafios.filter((d) => !d.flFinalizado);
 
         if (!pendentes.length) {
-            router.replace('/menu');
+            router.replace('/EmptyState');
             return;
         }
 
@@ -81,12 +67,11 @@ export default function Start() {
 
         router.replace('/desafio');
     };
+
     return (
         <SafeAreaView style={styles.safe}>
             <View style={styles.container}>
-
                 <View style={styles.card}>
-
                     <Text style={styles.title}>
                         Desafio diário
                     </Text>
@@ -96,17 +81,15 @@ export default function Start() {
                     </Text>
 
                     <Pressable
-                        style={styles.button}
+                        style={[styles.button, loading && styles.buttonDisabled]}
                         onPress={handleStart}
                         disabled={loading}
                     >
                         <Text style={styles.buttonText}>
-                            Começar
+                            Jogar
                         </Text>
                     </Pressable>
-
                 </View>
-
             </View>
         </SafeAreaView>
     );
@@ -150,6 +133,10 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         borderRadius: 14,
         alignItems: 'center',
+    },
+
+    buttonDisabled: {
+        opacity: 0.6,
     },
 
     buttonText: {
